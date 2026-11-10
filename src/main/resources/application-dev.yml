@@ -1,0 +1,23 @@
+# 本地开发 / 单元测试：零外部依赖，全部使用内存实现
+spring:
+  datasource:
+    url: jdbc:h2:mem:ragdb;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema-h2.sql
+
+rag:
+  vector:
+    store: memory
+    dimension: 384
+  embedding:
+    provider: hashing
+    dimension: 384
+  llm:
+    provider: mock
+  cache:
+    type: memory

@@ -1,0 +1,77 @@
+spring:
+  application:
+    name: rag-knowledge-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 55MB
+  jackson:
+    default-property-inclusion: non_null
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+
+server:
+  port: ${SERVER_PORT:8080}
+
+rag:
+  storage:
+    dir: ${RAG_STORAGE_DIR:./data/uploads}
+  # ---------- 文本切分 ----------
+  chunk-size: 500
+  chunk-overlap: 60
+  min-chunk-chars: 12
+  max-text-chars: 500000
+  max-file-size-mb: 20
+  # ---------- 大文档入库：分批向量化 + 整体超时 ----------
+  ingest-batch-size: 32
+  ingest-timeout-seconds: 300
+  # ---------- 检索 ----------
+  retrieval-top-k: 5
+  similarity-threshold: 0.65
+  max-context-chars: 6000
+  # ---------- 向量库 ----------
+  vector:
+    store: memory
+    collection: rag_chunks
+    dimension: 384
+    milvus:
+      uri: ${MILVUS_URI:http://localhost:19530}
+      token: ${MILVUS_TOKEN:}
+      username: ${MILVUS_USERNAME:}
+      password: ${MILVUS_PASSWORD:}
+      connect-timeout-ms: 10000
+      rpc-deadline-ms: 30000
+  # ---------- 向量化模型 ----------
+  embedding:
+    provider: hashing
+    model: nomic-embed-text
+    dimension: 384
+    base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+    timeout-seconds: 60
+    max-retries: 2
+  # ---------- 生成模型 ----------
+  llm:
+    provider: mock
+    model: qwen2.5:7b
+    base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+    temperature: 0.1
+    timeout-seconds: 120
+    max-retries: 2
+    answer-without-context: false
+  # ---------- 高频问答缓存 ----------
+  cache:
+    enabled: true
+    type: memory
+    ttl-minutes: 60
+    key-prefix: "rag:qa:"
+
+logging:
+  level:
+    com.example.rag: INFO
+    dev.langchain4j: WARN
+    io.milvus: WARN

@@ -1,0 +1,36 @@
+# 生产 / 集成环境：MySQL + Milvus + Redis + Ollama
+spring:
+  datasource:
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/rag?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${MYSQL_USER:rag}
+    password: ${MYSQL_PASSWORD:rag123456}
+    hikari:
+      maximum-pool-size: 16
+      connection-timeout: 10000
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema-mysql.sql
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 5s
+
+rag:
+  vector:
+    store: milvus
+    dimension: 768
+    milvus:
+      uri: ${MILVUS_URI:http://localhost:19530}
+  embedding:
+    provider: ollama
+    dimension: 768
+    model: ${EMBEDDING_MODEL:nomic-embed-text}
+  llm:
+    provider: ollama
+    model: ${CHAT_MODEL:qwen2.5:7b}
+  cache:
+    type: redis
