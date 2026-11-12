@@ -131,3 +131,5 @@ public class OllamaEmbeddingModel implements EmbeddingModel {
         }
     }
 }
+//批量向量化,利用ollama的api/embed,对textsegment抓出text组成body调用client.post得到的node,取出当中embedding数据作为Response
+//如果批量向量化出错,对每条text调用api/embeddings向量化组成response

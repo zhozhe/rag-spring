@@ -54,3 +54,4 @@ public class TextChunker {
         return result;
     }
 }
+//自定义片段大小+重叠参数 设置 文本分割器,对文本内容进行切片,并去除首尾空白字符
