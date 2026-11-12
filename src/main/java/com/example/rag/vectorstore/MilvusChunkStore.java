@@ -55,6 +55,7 @@ public class MilvusChunkStore implements ChunkStore {
         this.dimension = vectorProperties.getDimension();
 
         RagProperties.Milvus milvus = vectorProperties.getMilvus();
+
         ConnectConfig.ConnectConfigBuilder config = ConnectConfig.builder()
                 .uri(milvus.getUri())
                 .connectTimeoutMs(milvus.getConnectTimeoutMs())
@@ -316,3 +317,6 @@ public class MilvusChunkStore implements ChunkStore {
         }
     }
 }
+//connectconfigbuilder->connectconfig->MilvusClientV2->initCollection()去创建集合
+//创建集合中:List整合CreateCollectionReq.FieldSchema类型数据有包括id,vector,content,docid,knowl,name,index->
+// CollectionSchemaBuilder类型fields->CollectionSchema对象->CreateCollectionReqBuilder->CreateCollectionReq
