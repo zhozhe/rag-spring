@@ -113,3 +113,5 @@ public class TikaDocumentParser implements DocumentParser {
         return dot < 0 ? "" : fileName.substring(dot);
     }
 }
+//这个解析把传入进去的参数,文件名,经过修改的文本内容,文件类型整合成一个对象
+//开始文档校验,文本去掉阅读隐藏字符,文本去除空格,换行,回车
