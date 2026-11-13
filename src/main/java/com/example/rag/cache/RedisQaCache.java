@@ -55,6 +55,7 @@ public class RedisQaCache implements QaCache {
         String kb = knowledgeBase == null || knowledgeBase.isBlank() ? "default" : knowledgeBase.trim();
         try {
             Set<String> keys = redis.keys(keyPrefix + kb + ":*");
+//            rag:kb:kb001:chunk:1     知识库id,chunk id
             if (keys != null && !keys.isEmpty()) {
                 redis.delete(keys);
             }
